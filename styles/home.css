@@ -1,0 +1,53 @@
+#logo{
+    width: 300px;
+    height: 70px;
+    margin-left: 30px;
+}
+#upper-panel{
+    background-color: #2e2f30;
+    height: 70px;
+}
+
+#search-div{
+    display: flex;
+    align-items: center;
+}
+
+#search{
+    width: 80%;
+}
+
+#home-container{
+    background-color: #d3d7de;
+     height: 100vh;  /*ovo treba da bude dinamicki */
+}
+
+#quick-post{
+ resize: none;  
+}
+
+#confirm-post{
+    width: 200px; 
+    height: 40px; 
+    font-size: 16px;          
+ 
+}
+
+.btn-primary:disabled {
+    background-color: grey;
+}
+
+.btn-primary.enabled {
+    background-color: #db4ba6;
+}
+
+.btn.col-3{
+    display: flex;
+    align-items: center;
+    padding-left: 0px;
+}
+
+.post.col-7{
+    margin: 30px;
+}
+

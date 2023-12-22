@@ -3,30 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log In</title>
+    <title>Successfull</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="styles/login.css">
 </head>
 <body>
-    <div id="global_login_container">
-        <div id="around_login_form">
-            <img id="logoImage" src="../toolan.png" alt="">
-            <br><br>
-            <div class="login_form">
-            <div id="login_form_header">
-                <span>Log Into TOOLAN</span>
-                <br><br>
-            </div>
-                <form action="login.php" method="post">
-                    <input type="text" name="username" placeholder="Username" class="login_input"><br>
-                    <input type="password" name="password" placeholder="Password" class="login_input"><br>
-                    <button type="submit" class="btn btn-primary" id="login_submit">Log In</button>
-                </form>
-                <br>
-                <a href="register.php" id="login_acc_create">Dont have an account? Sign up now!</a>
+<div class="rdr container-fluid">
+  <div class="pnl13 row">
+    <div class="col">
+    </div>
+    <div class="redirected col-8 rdr">
+        <div>
+            <a href="login.php"><img src="../toolan.png" alt="Logo"></a> 
+            <div>
+                <p>You have <strong>successfully</strong> created an account!</p>
+                <p>Click on the site logo to get redirected to the Log In page</p>
             </div>
         </div>
     </div>
+    <div class="pnl13 col">
+    </div>
+  </div>
+</div>
+
+
+
+
 
 
 
