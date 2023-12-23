@@ -28,7 +28,27 @@
         </div>
     </div>
 
+<?php
+require_once "classes.php";
 
+//TODO sesije, logika kad vraca null
+if(isset($_POST['username'])&&isset($_POST['password']))
+{
+    $user=User::isSuccessfullLogin($_POST['username'],$_POST['password']);
+    
+    if ($user instanceof User)
+    {
+        header("Location: home.php");
+    }
+    //TODO ispravna notifikacija kad je neuspeo login 
+    else if($user==false)
+    {
+        echo "<p class='choose'>LOSI LOGIN PODACI</p>";
+    }
+        
+}
+
+?>
 
 
 
