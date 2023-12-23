@@ -3,7 +3,7 @@ require_once "database.php";
 
 
 class User{
-    public $id;
+    public $id_user;
     public $username;
     public $password;
     public $name;
@@ -13,9 +13,9 @@ class User{
     private static $dbc;
 
     //TODO pfp logika
-    public function __construct( $id,$username, $password,$name,$user_type ,$prof_description)
+    public function __construct( $id_user,$username, $password,$name,$user_type ,$prof_description)
     {  
-         $this->id=$id;
+         $this->id_user=$id_user;
          $this->username=$username;
          $this->password=$password;
          $this->user_type=$user_type;
@@ -38,22 +38,23 @@ class User{
                 if(mysqli_num_rows($result)==1)
                 {
                     $row=mysqli_fetch_assoc($result);
-                    $id=$row['id'];
+                    $id_user=$row['id_user'];
                     $username=$row['username'];
                     $password=$row['password'];
                     $name=$row['name'];
                     $user_type=$row['user_type'];
                     $prof_description=$row['prof_description'];
-                    return new User($id,$username, $password,$name,$user_type ,$prof_description);
+                    return new User($id_user,$username, $password,$name,$user_type ,$prof_description);
                 }
-                else 
+                else if(mysqli_num_rows($result)>1)
                 {
                     error_log("Several users with same username: ".$usr);
                     return null;
                 }
+                else return false;
             }
             else {
-                return false;
+                return null;
             }
 
         }
