@@ -1,3 +1,22 @@
+
+<?php
+require_once "classes.php";
+session_start();
+$currentUser;
+if(isset($_SESSION['user']))
+{
+  $currentUser=$_SESSION['user'];
+
+}
+else
+{
+  header("Location: login.php");
+  exit();
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,8 +37,24 @@
     <div class="col-6" id="search-div">
     <input type="text" class="form-control" id="search" placeholder="Search...">
     </div>
-    <div class="col">
-      OVDE STOJE PROFILNA I IME
+    <div class="usrBar col">
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <?php echo "<span class='currUserName'>".$currentUser->name."</span>";//prikaz ulgoovanog usera
+          ?>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" href="profile.php">View Profile</a>
+          <a class="dropdown-item" href="logout.php">Log Out</a>
+        </div>
+        
+          <?php
+            $pfpPath=$currentUser->profile_picture;
+            echo "<img src='$pfpPath' class='pfpNav'>";//dodavanje profilne gore desno
+          ?>
+        
+        
+    </div>          
     </div>
   </div>
 </div>
@@ -40,13 +75,8 @@
     </div>
     </div>
     <div class="col">
-     
     </div>
   </div>
-</div>
-
-
-
 
 
 

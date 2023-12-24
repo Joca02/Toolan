@@ -10,15 +10,3 @@ function buttonEnabled(txtArea) {
         submitButton.classList.remove('enabled');
     }
 }
-
-function validateForm() {
-    var password1 = document.getElementsByName('password')[0].value;
-    var password2 = document.getElementsByName('password2')[0].value;
-
-    if (password1 !== password2) {
-        alert('Passwords do not match!');
-        return false; //ne prolazi
-    }
-    //prolazi form submission
-    return true; 
-}

@@ -51,3 +51,25 @@
     margin: 30px;
 }
 
+.usrBar{
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+.currUserName{
+    font-size: 18px;
+    color: white;
+}
+
+.btn.btn-secondary.dropdown-toggle{
+    background-color: #2e2f30;
+    margin-right: 20px;
+}
+
+.pfpNav{
+    width: 60px;
+    height:60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 50px;
+}

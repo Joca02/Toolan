@@ -30,20 +30,24 @@
 
 <?php
 require_once "classes.php";
-
+session_start();
 //TODO sesije, logika kad vraca null
 if(isset($_POST['username'])&&isset($_POST['password']))
 {
+    
     $user=User::isSuccessfullLogin($_POST['username'],$_POST['password']);
     
     if ($user instanceof User)
     {
+        $_SESSION['user']=$user;
         header("Location: home.php");
+        exit();
     }
     //TODO ispravna notifikacija kad je neuspeo login 
     else if($user==false)
     {
         echo "<p class='choose'>LOSI LOGIN PODACI</p>";
+        session_destroy();
     }
         
 }
