@@ -13,7 +13,7 @@ class User{
     public $profile_picture;
     private static $dbc;
 
-    //TODO pfp logika
+    
     public function __construct( $id_user,$username, $password,$name,$gender,$user_type ,$prof_description,$profile_picture)
     {  
          $this->id_user=$id_user;
