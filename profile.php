@@ -6,7 +6,8 @@ if(isset($_SESSION['user']))
 {
   $currentUser=$_SESSION['user'];
 
-}
+}//Pri ucitavanju ove stranice ja trebam da joj prosledim nekog korisnika (po id-ju najvrv) i da zatim izlistam njegove podatke
+//problem je kako proslediti id drugog korisnika kog sam searchovao
 else
 {
   header("Location: login.php");
