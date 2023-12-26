@@ -83,5 +83,12 @@
 }
 
 .profileName{
-    
+    font-size: 40px;
+    margin: 0%;
+
+}
+.profileUsername{
+    font-size: 20px;
+    color: gray;
+    margin:0%
 }

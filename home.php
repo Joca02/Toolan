@@ -11,7 +11,7 @@ if(isset($_SESSION['user']))
 else
 {
   header("Location: login.php");
-  exit();
+  exit();//TODO search input funkcionalnost
 }
 ?>
 
@@ -28,7 +28,7 @@ else
 
 </head>
 <body>
-    
+<!--NAV-->
 <div class="container-fluid">
   <div class="row" id="upper-panel">
     <div class="col">
@@ -44,21 +44,22 @@ else
           ?>
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <a class="dropdown-item" href="profile.php">View Profile</a>
+          <a class="dropdown-item" href="profile.php?id=<?php echo $currentUser->id_user?>">View Profile</a>
           <a class="dropdown-item" href="logout.php">Log Out</a>
         </div>
         
           <?php
             $pfpPath=$currentUser->profile_picture;
             echo "<img src='$pfpPath' class='pfpNav'>";//dodavanje profilne gore desno
-          ?>
-        
-        
+          ?>   
     </div>          
     </div>
   </div>
 </div>
 
+
+
+<!--HOME PAGE-->
 <div class="container-fluid text-center" id="home-container">
   <div class="row">
     <div class="col">

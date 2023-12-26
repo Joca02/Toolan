@@ -41,14 +41,14 @@ class User{
                 if(mysqli_num_rows($result)==1)
                 {
                     $row=mysqli_fetch_assoc($result);
-                    $id_user=$row['id_user'];
-                    $username=$row['username'];
-                    $password=$row['password'];
-                    $name=$row['name'];
-                    $user_type=$row['user_type'];
-                    $prof_description=$row['prof_description'];
-                    $profile_picture=$row['profile_picture'];
-                    $gender=$row['gender'];
+                            $id_user=$row['id_user'];
+                            $username=$row['username'];
+                            $password=$row['password'];
+                            $name=$row['name'];
+                            $user_type=$row['user_type'];
+                            $prof_description=$row['prof_description'];
+                            $profile_picture=$row['profile_picture'];
+                            $gender=$row['gender'];
                     return new User($id_user,$username, $password,$name,$gender,$user_type ,$prof_description,$profile_picture);
                 }
                 else if(mysqli_num_rows($result)>1)

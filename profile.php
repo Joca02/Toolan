@@ -1,18 +1,54 @@
 <?php
 require_once "classes.php";
+require_once "database.php";
 session_start();
-$currentUser;
-if(isset($_SESSION['user']))
-{
-  $currentUser=$_SESSION['user'];
-
-}//Pri ucitavanju ove stranice ja trebam da joj prosledim nekog korisnika (po id-ju najvrv) i da zatim izlistam njegove podatke
-//problem je kako proslediti id drugog korisnika kog sam searchovao
-else
-{
+$userProfile;
+if (!isset($_SESSION['user'])) {
   header("Location: login.php");
   exit();
 }
+$currentUser=$_SESSION['user'];
+
+if(isset($_GET['id']))
+{
+  if($_GET['id']==$currentUser->id_user)
+    $userProfile=$currentUser;
+  
+    else
+  {
+    $profile_id=$_GET['id'];
+    $dbc=createConnection();
+
+    $query="SELECT * FROM users WHERE id_user=$profile_id";
+    try{
+      $result=mysqli_query($dbc,$query);
+      if(mysqli_num_rows($result)==1)
+      {
+        $row=mysqli_fetch_assoc($result);
+                    $id_user=$row['id_user'];
+                    $username=$row['username'];
+                    $password=$row['password'];
+                    $name=$row['name'];
+                    $user_type=$row['user_type'];
+                    $prof_description=$row['prof_description'];
+                    $profile_picture=$row['profile_picture'];
+                    $gender=$row['gender'];
+        $userProfile=new User($id_user,$username, $password,$name,$gender,$user_type ,$prof_description,$profile_picture);
+      }
+      else
+        error_log("Several users with same id in profile.php Error");
+    }catch(Exception $e)
+    {
+      error_log("Exception caught in finding user id ".$e);
+    }
+    finally{
+      closeConnection($dbc);
+    }
+    
+  }
+ 
+}
+
 ?>
 
 
@@ -32,6 +68,7 @@ else
         //Post logika
     ?>
 
+<!--NAVIGATION BAR-->
 <div class="container-fluid">
   <div class="row" id="upper-panel">
     <div class="col">
@@ -68,11 +105,12 @@ else
     </div>
     <div class="post col-7">
         <div>
-        <a href=""><?php  $pfpPath=$currentUser->profile_picture;
+        <a href=""><?php  $pfpPath=$userProfile->profile_picture;
             echo "<img src='$pfpPath' class='pfpProfile'>";?></a>
         </div>
         <?php 
-            
+            echo "<p class='profileName'>$userProfile->name</p>";
+            echo "<p class='profileUsername'>@$userProfile->username</p> <br>";
         ?>
     </div>
     <div class="col">
