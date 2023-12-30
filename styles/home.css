@@ -48,7 +48,7 @@
 }
 
 .post.col-7{
-    margin: 30px;
+    margin: 0px;
 }
 
 .usrBar{
@@ -91,4 +91,19 @@
     font-size: 20px;
     color: gray;
     margin:0%
+}
+
+.profile-picture-search{
+    width: 40px;
+    height:40px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #2e2f30;
+}
+
+#suggestion-box{
+    margin-left: 80px;
+    margin-right: 24%;
+    margin-bottom: 50px;
+    text-align: left;
 }

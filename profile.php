@@ -61,6 +61,11 @@ if(isset($_GET['id']))
     <title>Profile</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="styles/home.css">
+  
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="js/home.js"></script>
 </head>
 <body>
     <?php
@@ -104,6 +109,7 @@ if(isset($_GET['id']))
     <div class="col">
     </div>
     <div class="post col-7">
+        <div id="suggestion-box" class="list-group"></div>
         <div>
         <a href=""><?php  $pfpPath=$userProfile->profile_picture;
             echo "<img src='$pfpPath' class='pfpProfile'>";?></a>
@@ -120,9 +126,37 @@ if(isset($_GET['id']))
 
 
 
-<script src="js/home.js"></script>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+
+
+  <script>
+  //jquery
+  $(function(){
+    const suggestionBox = $("#suggestion-box");
+    $("#search").on("input", function(){
+      var characters = $(this).val();
+      suggestionBox.empty();
+      if(characters.length > 0) {
+        $.get("filter_search.php?name=" + characters, function(response) {
+          
+          for (var i = 0; i < response.length; i++) {
+              const name=response[i].name;
+
+              const suggestionItem = $("<a href='profile.php?id="+response[i].id_user+"'  class='list-group-item list-group-item-action list-group-item-light'><img src='" + response[i].profile_picture + "' class='profile-picture-search'> " + response[i].name + "</a>");
+
+              suggestionBox.append(suggestionItem);
+
+          }
+          suggestionBox.show();
+        });
+      }
+    });
+});
+
+</script>
+
+
+
 </body>
 </html>

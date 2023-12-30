@@ -33,14 +33,17 @@ else
 
 </head>
 <body>
-<!--NAV-->
+<!--NAVIGATION BAR-->
 <div class="container-fluid">
   <div class="row" id="upper-panel">
     <div class="col">
       <img src="../toolan.png" alt="logo" id="logo">
     </div>
     <div class="col-6" id="search-div">
+
     <input type="text" class="form-control" id="search" placeholder="Search...">
+    
+
     </div>
     <div class="usrBar col">
       <div class="dropdown">
@@ -71,6 +74,8 @@ else
      
     </div>
     <div class="post col-7">
+    <div id="suggestion-box" class="list-group"></div>
+
         <div class="quick-post row">
             <div class="col-9">
             <textarea class="form-control" placeholder="Add a quick post. What's on your mind?" rows="3" id="quick-post" oninput="buttonEnabled(this)"></textarea>
@@ -90,15 +95,23 @@ else
 </body>
 <script>
   //jquery
-  //TODO ispisivanje u drop listboxu i link
   $(function(){
+    const suggestionBox = $("#suggestion-box");
     $("#search").on("input", function(){
       var characters = $(this).val();
+      suggestionBox.empty();
       if(characters.length > 0) {
         $.get("filter_search.php?name=" + characters, function(response) {
+          
           for (var i = 0; i < response.length; i++) {
-            console.log("User Name: " + response[i].name);
+              const name=response[i].name;
+
+              const suggestionItem = $("<a href='profile.php?id="+response[i].id_user+"'  class='list-group-item list-group-item-action list-group-item-light'><img src='" + response[i].profile_picture + "' class='profile-picture-search'> " + response[i].name + "</a>");
+
+              suggestionBox.append(suggestionItem);
+
           }
+          suggestionBox.show();
         });
       }
     });
