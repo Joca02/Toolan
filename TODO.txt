@@ -1,0 +1,9 @@
+-Edit_profile.php
+-Add friend/follow
+-Post logika da se dotera
+-Isprobati prvo txt post
+-Uraditi lajk, komentar logiku
+-Scroll kroz postove
+-Dodaj u favorite logika
+-Picture post
+
