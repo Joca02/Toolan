@@ -118,6 +118,12 @@ if(isset($_GET['id']))
             echo "<p class='profileName'>$userProfile->name</p>";
             echo "<p class='profileUsername'>@$userProfile->username</p> <br>";
         ?>
+        <button type="button" class="btn btn-primary" id="addORedit_btn"><?php
+          if($currentUser==$userProfile)
+            echo "Edit profile";
+          else echo "Follow";
+        ?></button>
+
     </div>
     <div class="col">
     </div>
@@ -133,6 +139,8 @@ if(isset($_GET['id']))
   <script>
   //jquery
   $(function(){
+    
+    //pretraga korisnika
     const suggestionBox = $("#suggestion-box");
     $("#search").on("input", function(){
       var characters = $(this).val();
@@ -152,7 +160,20 @@ if(isset($_GET['id']))
         });
       }
     });
+
+    //dugme add OR edit
+    $("#addORedit_btn").click(function(){
+      <?php
+        if($currentUser==$userProfile)
+          echo "window.location.href='edit_profile.php'";
+        else
+          echo "window.location.href=''";
+        ?>
+    });
+
 });
+
+
 
 </script>
 

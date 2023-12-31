@@ -107,3 +107,9 @@
     margin-bottom: 50px;
     text-align: left;
 }
+
+#addORedit_btn{
+    width: 200px;
+    background-color: #db4ba6;
+    margin-bottom: 50px;
+}

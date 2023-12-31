@@ -1,5 +1,6 @@
 -Edit_profile.php
--Add friend/follow
+-Follow logika
+-Follow notifikacija
 -Post logika da se dotera
 -Isprobati prvo txt post
 -Uraditi lajk, komentar logiku
