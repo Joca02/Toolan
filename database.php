@@ -28,6 +28,19 @@ function closeConnection($dbc)
     }
 }
 
+function generateUser($row)
+{
+    $id_user=$row['id_user'];
+    $username=$row['username'];
+    $password=$row['password'];
+    $name=$row['name'];
+    $user_type=$row['user_type'];
+    $prof_description=$row['prof_description'];
+    $profile_picture=$row['profile_picture'];
+    $gender=$row['gender'];
+
+    return new User($id_user,$username, $password,$name,$gender,$user_type ,$prof_description,$profile_picture);
+}
 
 function findNames($dbc,$characters)
 {
@@ -37,20 +50,30 @@ function findNames($dbc,$characters)
     if(!$result)throw new Exception("Querry in findNames failed.");
     $filteredUsers=[];
     while($row=mysqli_fetch_assoc($result))
-    {
-                            $id_user=$row['id_user'];
-                            $username=$row['username'];
-                            $password=$row['password'];
-                            $name=$row['name'];
-                            $user_type=$row['user_type'];
-                            $prof_description=$row['prof_description'];
-                            $profile_picture=$row['profile_picture'];
-                            $gender=$row['gender'];
-        $filteredUsers[]=new User($id_user,$username, $password,$name,$gender,$user_type ,$prof_description,$profile_picture);
+    {               
+        $filteredUsers[]=generateUser($row);
     }
     header('Content-Type: application/json');
     echo json_encode($filteredUsers);
 
+}
+
+
+function findUserById($id)
+{
+    $dbc = createConnection();
+    $query = "SELECT * FROM users WHERE id_user = $id";
+    
+    try {
+        $result = mysqli_query($dbc, $query);
+        $row = mysqli_fetch_assoc($result);
+
+        return generateUser($row);
+    } catch (Exception $e) {
+        error_log($e);
+    } finally {
+        closeConnection($dbc);
+    }
 }
 
 ?>

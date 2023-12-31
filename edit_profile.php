@@ -7,36 +7,7 @@ if (!isset($_SESSION['user'])) {
     exit();
 }
 $currentUser=$_SESSION['user']; //NE APDEJTUJE
-
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    header('Content-Type: application/json');
-    $newName = $_POST["name"];
-    $newDescription = $_POST["description"];
-    $dbc = createConnection();
-    $query = "UPDATE users SET name = '$newName', prof_description = '$newDescription' WHERE id_user = $currentUser->id_user";
-    try{
-        $result=mysqli_query($dbc, $query);
-        if($result)
-        {
-            //error_log(mysqli_affected_rows($dbc)); 
-            if(mysqli_affected_rows($dbc)==1)
-                echo json_encode("success");
-            else
-                error_log("No changes have been saved");
-        }
-        
-        
-    }
-    catch(Exception $e)
-    {
-        error_log("Exception caught in querry ".$e);
-    }
-    finally{
-        closeConnection($dbc);
-    }
-    
-
-}
+error_log($currentUser->name);
 
 ?>
 
@@ -109,22 +80,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 {
                     $.post("submit_edit.php", {name: name.val(),description: description.val()},
                     function(response) {              
-        //                 try {
-        //     var jsonResponse = JSON.parse(response);
-        //     if (jsonResponse.status === "success") {
-        //         alert("Changes have been saved successfully!");
-        //     } else {
-        //         alert("There was an error while trying to save your changes. Please try again later.");
-        //     }
-        // } catch (e) {
-        //     console.error("Error parsing JSON response:", e);
-        // }
-                        if (response=="success") {
-                            alert("Changes have been saved succesfully!");    
+                        if (response == "success") {
+                            alert("Changes have been saved successfully!");
+                            $.get("update_session.php", function(data) {
+                                window.location.href = "profile.php?id=<?php echo $currentUser->id_user;?>"; 
+                            });
                         } else {
-                            alert("There was an error while trying to save your changes. Please try again later."); 
-                        }
-                        });
+                            alert("No changes were saved."); 
+                            window.location.href = "profile.php?id=<?php echo $currentUser->id_user;?>";
+                        }                        
+
+                    });                      
              }
             })
         })
