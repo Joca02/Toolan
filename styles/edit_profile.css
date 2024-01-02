@@ -5,6 +5,7 @@ body{
 .btn.btn-primary{
     background-color: #db4ba6;
     font-size: 20px;
+    margin-right: 20px;
 }
 
 label{
@@ -13,4 +14,8 @@ label{
 
 .change{
     font-size: 18px;
+}
+#delete{
+    margin-left: 690px;
+    font-size: 20px;
 }

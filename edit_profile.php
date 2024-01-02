@@ -7,7 +7,7 @@ if (!isset($_SESSION['user'])) {
     exit();
 }
 $currentUser=$_SESSION['user']; //NE APDEJTUJE
-error_log($currentUser->name);
+
 
 ?>
 
@@ -43,58 +43,103 @@ error_log($currentUser->name);
         </div>
         <br>
         <button type="button" class="btn btn-primary" id="submit">Submit changes</button>
+        <button type="button" class="btn btn-secondary" id="cancel">Cancel</button>
+        <button type="button" class="btn btn-danger" id="delete">Delete Profile</button>
     </form>
 
     <script>
-        $(function(){
-            var name=$("#editName");
-            var description= $("#editDescription");
-            name.val("<?php echo $currentUser->name; ?>");
-            description.val("<?php 
+    $(function(){
+        var name = $("#editName");
+        var description = $("#editDescription");
+        var profile_picture = $("#editProfilePicture");
+        name.val("<?php echo $currentUser->name; ?>");
+
+        //dekodujem opis profila u txtArea jer \n pravi problem
+        var decodedDescription = decodeURIComponent("<?php 
             if(isset($currentUser->prof_description))
-                echo $currentUser->prof_description; ?>")
+                echo $currentUser->prof_description; ?>");
+        description.val(decodedDescription);
 
-            //provera forme
-            var btn=$("#submit");
-            btn.click(function(){
-                var condition=true;
-                if(name.val()<2)
-                {
-                    condition=false;
-                    alert("Name must have at least 2 letters!");
-               }
-                    
-                else if(name.val().length>15)
-                {
-                    condition=false;
-                    alert("Name cannot have more than 15 letters!");
-                }
-                    
-                if(description.val().length>255)
-                {
-                    condition=false;
-                    alert("Description can have a maximum of 255 characters!");
-                }
+        //provera forme
+        var btnSubmit = $("#submit");
+        btnSubmit.click(function(){
+            var condition = true;
+            if(name.val().length < 2) {
+                condition = false;
+                alert("Name must have at least 2 letters!");
+            }
+            else if(name.val().length > 15) {
+                condition = false;
+                alert("Name cannot have more than 15 letters!");
+            }
+            if(description.val().length > 255) {
+                condition = false;
+                alert("Description can have a maximum of 255 characters!");
+            }
 
-                if(condition)
-                {
-                    $.post("submit_edit.php", {name: name.val(),description: description.val()},
-                    function(response) {              
+            if(condition) {
+                  //enkodujem opis profila u txtArea jer \n pravi problem
+                var encodedDescription = encodeURIComponent(description.val());
+                var formData = new FormData($("#editProfileForm")[0]);
+        
+                formData.append('editDescription', encodedDescription);
+                $.ajax({
+                    url: "submit_edit.php",
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    dataType: "json", 
+                    success: function(response) {              
                         if (response == "success") {
                             alert("Changes have been saved successfully!");
                             $.get("update_session.php", function(data) {
                                 window.location.href = "profile.php?id=<?php echo $currentUser->id_user;?>"; 
                             });
-                        } else {
+                        } 
+                        else if(response == "file_failure") {
+                            alert("Please use a different picture format.");
+                        }
+                        else {
                             alert("No changes were saved."); 
                             window.location.href = "profile.php?id=<?php echo $currentUser->id_user;?>";
-                        }                        
+                        }   
+                    } 
+                });                      
+            }
+        });
 
-                    });                      
-             }
-            })
+        var btnCancel=$("#cancel");
+
+        btnCancel.click(function(){
+            alert("No changes were saved."); 
+            window.location.href = "profile.php?id=<?php echo $currentUser->id_user;?>";
         })
-    </script>
+
+        var btnDelete=$("#delete");
+        btnDelete.click(function(){
+            if(confirm("Are you sure you want to delete profile?Once deleted, action cannot be undone."))
+            {
+                var idUser = <?php echo $currentUser->id_user; ?>;
+
+                $.get(
+                    "delete_profile.php",{id:idUser},function(response)
+                    {
+                        if(response=="success")
+                        {
+                            alert("Profile has been successfully deleted. You will be redirected to Log In page.");
+                            window.location.href = "login.php";
+                        }
+                        else
+                            alert("There was an error trying to delete your profile, please try again later.");
+                    }
+                )
+            }
+        })
+        
+    });
+</script>
+
 </div>
 </body>
 </html>
