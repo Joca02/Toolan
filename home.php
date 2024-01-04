@@ -37,7 +37,7 @@ else
 <div class="container-fluid">
   <div class="row" id="upper-panel">
     <div class="col">
-      <img src="../toolan.png" alt="logo" id="logo">
+      <img src="uploads/toolan.png" alt="logo" id="logo">
     </div>
     <div class="col-6" id="search-div">
 

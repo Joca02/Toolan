@@ -1,4 +1,3 @@
--Edit_profile.php
 -Follow logika
 -Follow notifikacija
 -Post logika da se dotera

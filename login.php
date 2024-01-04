@@ -14,7 +14,7 @@
 <body>
     <div id="global_login_container">
         <div id="around_login_form">
-            <img id="logoImage" src="../toolan.png" alt="">
+            <img id="logoImage" src="uploads/toolan.png" alt="">
             <br><br>
             <div class="login_form">
             <div id="login_form_header">

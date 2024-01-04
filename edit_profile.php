@@ -6,7 +6,7 @@ if (!isset($_SESSION['user'])) {
     header("Location: login.php");
     exit();
 }
-$currentUser=$_SESSION['user']; //NE APDEJTUJE
+$currentUser=$_SESSION['user']; 
 
 
 ?>
@@ -94,7 +94,8 @@ $currentUser=$_SESSION['user']; //NE APDEJTUJE
                         if (response == "success") {
                             alert("Changes have been saved successfully!");
                             $.get("update_session.php", function(data) {
-                                window.location.href = "profile.php?id=<?php echo $currentUser->id_user;?>"; 
+                                        //2. key-val pair dole zbog kesiranja brauzera
+                                window.location.href = "profile.php?id=<?php echo $currentUser->id_user;?>&reload=true";                   
                             });
                         } 
                         else if(response == "file_failure") {

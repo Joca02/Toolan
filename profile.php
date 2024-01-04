@@ -61,16 +61,13 @@ if(isset($_GET['id']))
 <script src="js/home.js"></script>
 </head>
 <body>
-    <?php
-        //TODO profil izgled, add post, settings, add friend
-        //Post logika
-    ?>
+    
 
 <!--NAVIGATION BAR-->
 <div class="container-fluid">
   <div class="row" id="upper-panel">
     <div class="col">
-      <a href="home.php"><img src="../toolan.png" alt="logo" id="logo"></a>
+      <a href="home.php"><img src="uploads/toolan.png" alt="logo" id="logo"></a>
     </div>
     <div class="col-6" id="search-div">
     <input type="text" class="form-control" id="search" placeholder="Search...">
@@ -112,9 +109,9 @@ if(isset($_GET['id']))
             echo "<p class='profileUsername'>@$userProfile->username</p> <br>";
         ?>
         <button type="button" class="btn btn-primary" id="addORedit_btn"><?php
-          if($currentUser==$userProfile)
-            echo "Edit profile";
-          else echo "Follow";
+          // if($currentUser==$userProfile)
+          //   echo "Edit profile";
+          // else echo "Follow";
         ?></button>
 
     </div>
@@ -130,9 +127,35 @@ if(isset($_GET['id']))
 
 
   <script>
-  //jquery
+   
   $(function(){
     
+    function followButtonTextChange() {
+    var btn = $("#addORedit_btn");
+    var currentUserID = <?php echo $currentUser->id_user; ?>;
+    //grabi id profila iz URL-a
+    var urlParams = new URLSearchParams(window.location.search);
+    var profileID = urlParams.get('id');
+
+    if (profileID == currentUserID) {
+      btn.html("Edit profile");
+    } else {
+      $.get(
+        "follow.php", { followed: profileID },
+        function (response) {
+          if (response == "FOLLOWING")
+            btn.html("Unfollow").css("background-color","grey");
+          else if(response=="FOLLOWING ME")
+             btn.html("Follow Back").css("background-color","#db4ba6");
+          else
+              btn.html("Follow").css("background-color","#db4ba6");
+        }
+      )
+    }
+  }
+
+    followButtonTextChange();
+
     //pretraga korisnika
     const suggestionBox = $("#suggestion-box");
     $("#search").on("input", function(){
@@ -154,15 +177,30 @@ if(isset($_GET['id']))
       }
     });
 
+    function handleEditOrFollow()
+    {
+      var currentUserID = <?php echo $currentUser->id_user; ?>;
+      var urlParams = new URLSearchParams(window.location.search);
+      var profileID = urlParams.get('id');
+
+      if (profileID == currentUserID) {
+        window.location.href="edit_profile.php";
+      } else {
+        $.post(
+          "follow.php", { followed: profileID },
+          function (response) {
+            if(response=="success")
+              followButtonTextChange();
+
+          }
+        )
+      }
+    }
+
     //dugme add OR edit
-    $("#addORedit_btn").click(function(){
-      <?php
-        if($currentUser==$userProfile)
-          echo "window.location.href='edit_profile.php'";
-        else
-          echo "window.location.href=''";
-        ?>
-    });
+    $("#addORedit_btn").click(handleEditOrFollow);
+
+    
 
 });
 

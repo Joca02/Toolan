@@ -14,7 +14,7 @@
     </div>
     <div class="redirected col-8 rdr">
         <div>
-            <a href="login.php"><img src="../toolan.png" alt="Logo"></a> 
+            <a href="login.php"><img src="uploads/toolan.png" alt="Logo"></a> 
             <div>
                 <p>You have <strong>successfully</strong> created an account!</p>
                 <p>Click on the site logo to get redirected to the Log In page</p>
