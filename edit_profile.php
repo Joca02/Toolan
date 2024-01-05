@@ -95,7 +95,12 @@ $currentUser=$_SESSION['user'];
                             alert("Changes have been saved successfully!");
                             $.get("update_session.php", function(data) {
                                         //2. key-val pair dole zbog kesiranja brauzera
-                                window.location.href = "profile.php?id=<?php echo $currentUser->id_user;?>&reload=true";                   
+                                        
+                                window.location.href = "profile.php?id=<?php echo $currentUser->id_user;?>";    
+                                // setTimeout(function() {
+                                    
+                                //     window.location.reload(true);
+                                // }, 100);//OVDE PROVERITI DAL JE NEOPHODNO  (NE RADI)      
                             });
                         } 
                         else if(response == "file_failure") {

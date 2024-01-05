@@ -1,4 +1,6 @@
--Follow logika
+-Pri prvom logovanju prva promena pfp se ne registruje
+bez hard refresha
+
 -Follow notifikacija
 -Post logika da se dotera
 -Isprobati prvo txt post

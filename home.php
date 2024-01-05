@@ -53,6 +53,7 @@ else
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
           <a class="dropdown-item" href="profile.php?id=<?php echo $currentUser->id_user?>">View Profile</a>
+          <a class="dropdown-item" href="edit_profile.php">Edit Profile</a>
           <a class="dropdown-item" href="logout.php">Log Out</a>
         </div>
         
@@ -89,14 +90,27 @@ else
     </div>
   </div>
 
+  <div >
+  <div class="row">
+    <div class="col">
+    </div>
+    <div class="col-6" id="post-container">
+      
+    </div>
+    <div class="col">
+    </div>
+  </div>
+  </div>
+</div>
 
 
 
 </body>
 <script>
-  //jquery
   $(function(){
+    //search logika
     const suggestionBox = $("#suggestion-box");
+   
     $("#search").on("input", function(){
       var characters = $(this).val();
       suggestionBox.empty();
@@ -114,6 +128,29 @@ else
           suggestionBox.show();
         });
       }
+    });
+
+    //post logika
+    const postContainer = $("#post-container");
+    
+    
+    $("#confirm-post").click(function(){
+      var txt=$("#quick-post").val();
+      $.get(
+        "add_post.php",{post_description:txt},function(response){
+          if(response=="success")
+            {
+              alert("Post has been successfully added!");
+              //da bi dugme ponovo bilo disabled
+              $("#quick-post").val("");
+              buttonEnabled(document.getElementById("quick-post"));
+            }
+          else
+          {
+            alert("There was an error adding the post, please try again later.");
+          }
+        }
+      );
     });
 });
 

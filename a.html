@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>AAAa</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        .post {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-header {
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .post-content {
+            padding: 15px;
+        }
+
+        .post-footer {
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #ddd;
+        }
+
+        .like-comment-icons {
+            display: flex;
+        }
+
+        .like-comment-icons i {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="post">
+    <div class="post-header">
+        <span class="username">JohnDoe</span>
+        <span class="timestamp">2 hours ago</span>
+    </div>
+    <div class="post-content">
+        <p>This is the content of the post. It can contain text, images, or other media.
+        </p>
+        <!-- You can customize the content based on your needs -->
+    </div>
+    <div class="post-footer">
+        <div class="like-comment-icons">
+            <i class="fa fa-heart-o"></i> <!-- Like icon -->
+            <i class="fa fa-comment-o"></i> <!-- Comment icon -->
+        </div>
+        <div class="comment-count">
+            <span>25 likes</span>
+            <span>10 comments</span>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

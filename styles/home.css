@@ -1,3 +1,7 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
 #logo{
     width: 300px;
     height: 70px;
@@ -19,7 +23,7 @@
 
 #home-container{
     background-color: #d3d7de;
-     height: 100vh;  /*ovo treba da bude dinamicki */
+    min-height: 100%;  /*ovo treba da bude dinamicki */
 }
 
 #quick-post{
@@ -113,3 +117,48 @@
     background-color: gray;
     margin-bottom: 50px;
 }
+
+ .the-post {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-header {
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .post-content {
+            padding: 15px;
+        }
+
+        .post-footer {
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #ddd;
+        }
+
+        .like-comment-icons {
+            display: flex;
+        }
+
+        .like-comment-icons i {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .profile-box{
+            max-width: 600px;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }

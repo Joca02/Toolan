@@ -80,6 +80,7 @@ if(isset($_GET['id']))
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
          <a class="dropdown-item" href="profile.php?id=<?php echo $currentUser->id_user?>">View Profile</a>
+         <a class="dropdown-item" href="edit_profile.php">Edit Profile</a>
           <a class="dropdown-item" href="logout.php">Log Out</a>
         </div>
         
@@ -100,7 +101,7 @@ if(isset($_GET['id']))
     </div>
     <div class="post col-7">
         <div id="suggestion-box" class="list-group"></div>
-        <div>
+        <div class='profile-box'><br><div>
         <a href=""><?php  $pfpPath=$userProfile->profile_picture;
             echo "<img src='$pfpPath' class='pfpProfile'>";?></a>
         </div>
@@ -108,18 +109,25 @@ if(isset($_GET['id']))
             echo "<p class='profileName'>$userProfile->name</p>";
             echo "<p class='profileUsername'>@$userProfile->username</p> <br>";
         ?>
-        <button type="button" class="btn btn-primary" id="addORedit_btn"><?php
-          // if($currentUser==$userProfile)
-          //   echo "Edit profile";
-          // else echo "Follow";
-        ?></button>
+        <button type="button" class="btn btn-primary" id="addORedit_btn"></button>
 
-    </div>
+    </div></div>
+        
     <div class="col">
     </div>
   </div>
 
-
+  <div >
+  <div class="row">
+    <div class="col">
+    </div>
+    <div class="col-6" id="post-container">
+      
+    </div>
+    <div class="col">
+    </div>
+  </div>
+  </div>
 
 
 
@@ -130,6 +138,42 @@ if(isset($_GET['id']))
    
   $(function(){
     
+    //logika za prikazivanje postova
+    var postsLimit=3;
+    var offset=0;
+    var pageID='<?php echo $userProfile->id_user;?>'
+    var isLoading=false;  //zabranjujem paralelno izvrsavanje vise asinhronih funkcija
+  
+    function loadPosts()
+    {
+      if(isLoading)
+        return;
+      isLoading=true;
+      $.post(
+        "load_posts.php",{pageID:pageID,postsLimit: postsLimit, offset:offset},function(response)
+        {
+          $("#post-container").append(response);
+          offset+=postsLimit;
+          isLoading=false;
+        }
+      );
+    }
+
+    loadPosts();
+
+    $(window).scroll(function() {
+        // if ($(window).scrollTop() + $(window).height() >= $('#home-container').height() ) {
+        //     loadPosts();
+        // }
+        if (Math.ceil($(document).height() - $(window).scrollTop()) <= $(window).height()+50) {
+    loadPosts();
+}
+
+    });
+
+
+
+    //funkcija za izgled dugmeta za follow/edit profile
     function followButtonTextChange() {
     var btn = $("#addORedit_btn");
     var currentUserID = <?php echo $currentUser->id_user; ?>;
