@@ -18,11 +18,10 @@ if(isset($_POST['pageID'])&&isset($_POST['postsLimit'])&&isset($_POST['offset'])
         $result=mysqli_query($dbc,$query);
         if($result)
         {
-            error_log(mysqli_num_rows($result));
             while($row=mysqli_fetch_assoc($result))
             {
                 
-                echo "<div class='the-post'>
+                echo "<div class='the-post' id='".$row['id_post']."'>
                     <div class='post-header'>
                         <img class='pfpNav' src='$user->profile_picture'>
                         <span class='username'>$user->username</span>
@@ -34,12 +33,12 @@ if(isset($_POST['pageID'])&&isset($_POST['postsLimit'])&&isset($_POST['offset'])
                     </div>
                     <div class='post-footer'>
                         <div class='like-comment-icons'>
-                            <i class='fa fa-heart-o'></i> <!-- Like icon -->
-                            <i class='fa fa-comment-o'></i> <!-- Comment icon -->
+                            <i class='like fa fa-heart-o fa-2x' ></i> 
+                            <i class='comment fa fa-comment-o fa-2x' ></i> 
                         </div>
                         <div class='comment-count'>
-                            <span>25 likes</span>
-                            <span>10 comments</span>
+                            <span class='likesCount'></span>
+                            <span class='commentsCount'>10 comments</span>
                         </div>
                     </div>
                 </div>";

@@ -54,7 +54,7 @@ if(isset($_GET['id']))
     <title>Profile</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="styles/home.css">
-  
+    <script src="https://kit.fontawesome.com/a6397c1be2.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
@@ -139,12 +139,12 @@ if(isset($_GET['id']))
   $(function(){
     
     //logika za prikazivanje postova
-    var postsLimit=3;
+    var postsLimit=1;
     var offset=0;
     var pageID='<?php echo $userProfile->id_user;?>'
     var isLoading=false;  //zabranjujem paralelno izvrsavanje vise asinhronih funkcija
   
-    function loadPosts()
+    function loadPosts()//dodaj za com+likes
     {
       if(isLoading)
         return;
@@ -166,12 +166,29 @@ if(isset($_GET['id']))
         //     loadPosts();
         // }
         if (Math.ceil($(document).height() - $(window).scrollTop()) <= $(window).height()+50) {
-    loadPosts();
-}
-
+              loadPosts();
+        }
     });
-
-
+    console.log("AAA");
+  
+  $(document).on('click', '.like', function(){
+    var postID = $(this).closest('.the-post').prop('id');
+    var likeButton = $(this); // referenca na kliknutu ikonicu like
+    $.post(
+        "like.php",
+        { postID: postID },
+        function(response) {
+          console.log(response.likeStatus);
+            if (response.likeStatus == "liked") {
+                likeButton.removeClass('fa-heart-o').addClass('fa-heart');
+            } else if (response.likeStatus == "notLiked") {
+                likeButton.removeClass('fa-heart').addClass('fa-heart-o');
+            }
+            console.log(response.likesCount);
+            likeButton.closest('.the-post').find('.likesCount').html(response.likesCount+" Likes");
+        }
+    );
+  })
 
     //funkcija za izgled dugmeta za follow/edit profile
     function followButtonTextChange() {
