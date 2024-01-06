@@ -139,7 +139,7 @@ if(isset($_GET['id']))
   $(function(){
     
     //logika za prikazivanje postova
-    var postsLimit=1;
+    var postsLimit=3;
     var offset=0;
     var pageID='<?php echo $userProfile->id_user;?>'
     var isLoading=false;  //zabranjujem paralelno izvrsavanje vise asinhronih funkcija
@@ -153,6 +153,31 @@ if(isset($_GET['id']))
         "load_posts.php",{pageID:pageID,postsLimit: postsLimit, offset:offset},function(response)
         {
           $("#post-container").append(response);
+
+          var newPosts = $("#post-container").children('.the-post');
+
+            // Loop through each new post to load likes count
+            newPosts.each(function () {
+                var postID = $(this).prop('id');
+                var likesCountContainer = $(this).find('.likesCount');
+                var commentsCountContainer = $(this).find('.commentsCount');
+                var likeButton = $(this).find('.like');
+                // Fetch and display the likes count
+                $.post(
+                "get_post_info.php",
+                { postID: postID },
+                function (response) {
+                    if (response.isLiked) {
+                        likeButton.removeClass('fa-heart-o').addClass('fa-heart');
+                    } else {
+                        likeButton.removeClass('fa-heart').addClass('fa-heart-o');
+                    }
+                    likesCountContainer.html(response.likesCount+" Likes");
+                    commentsCountContainer.html(response.commentsCount+" Comments");
+                   
+                }
+            );
+        });
           offset+=postsLimit;
           isLoading=false;
         }

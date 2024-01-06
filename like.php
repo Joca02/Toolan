@@ -33,7 +33,7 @@ if(isset($_POST['postID']))
                 $result = mysqli_query($dbc, $query);
                 $row = mysqli_fetch_assoc($result);
                 $likesCount = $row['likesCount'];
-                error_log($likesCount);
+           
                 $response = array(
                     "likeStatus" => $likeStatus,
                     "likesCount" => $likesCount

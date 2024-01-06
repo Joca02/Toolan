@@ -6,6 +6,5 @@ bez hard refresha
 -Isprobati prvo txt post
 -Uraditi lajk, komentar logiku
 -Scroll kroz postove
--Dodaj u favorite logika
 -Picture post
 
