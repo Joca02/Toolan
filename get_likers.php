@@ -32,5 +32,6 @@ if(isset($_GET['postID']))
         closeConnection($dbc);
     }
 }
+else error_log("Couldt pass postID to get_likers.php");
 
 ?>

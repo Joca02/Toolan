@@ -1,11 +1,12 @@
 -Pri prvom logovanju prva promena pfp se ne registruje
 bez hard refresha
 
--Follow notifikacija
--Post logika da se dotera
--Isprobati prvo txt post
--Uraditi lajk, komentar logiku
--Scroll kroz postove
--Picture post
 -Omoguciti brisanje slike
+-Picture post
+-Prikaz na home page-u
 
+-Prikazi koga pratim, ko me prati, koliko imam flw
+-Na prof prikazi slike/text
+
+-Follow notifikacija
+-Eventualno admin deo

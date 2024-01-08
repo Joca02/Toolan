@@ -126,16 +126,16 @@ if(isset($_GET['id']))
           </div>
 </div>
     <!--USER LIKES MODAL-->
-<div class="modal fade" id="likesModal" tabindex="-1" role="dialog" aria-labelledby="likesModalLabel" aria-hidden="true">
+<div class="modal fade" id="windowModal" tabindex="-1" role="dialog" aria-labelledby="likesModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="likesModalLabel">Users who liked the photo</h5>
+                <h5 class="modal-title" id="windowModalLabel"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body" id="likesModalBody">
+            <div class="modal-body" id="windowModalBody">
                 <!-- Content will be dynamically added here -->
             </div>
             <div class="modal-footer">
@@ -150,7 +150,7 @@ if(isset($_GET['id']))
             echo "<p class='profileUsername'>@$userProfile->username</p> <br>";
         ?>
         <button type="button" class="btn btn-primary" id="addORedit_btn"></button>
-
+        <p id='profileDescription'></p>
     </div></div>
         
     <div class="col">
@@ -273,24 +273,30 @@ if(isset($_GET['id']))
     btn.unbind("click");  //svaki put kada se klikne comment ico novi event handler se dodaje dugmetu koje submituje com pa moram da ga unbindujem
     btn.click(function(){
       var comment=txtArea.value;
-      $.post(
-        "post_comment.php",{postID:postID,comment:comment},
-        function(response){
-          if(response=="success")
-          {
-            alert("You have successfully posted your comment.");
-            $('#commentModal').modal('hide');
-            var postElement = $('#' + postID);
-            var commentsCountContainer = postElement.find('.commentsCount');
-            var currentCommentCount = parseInt(commentsCountContainer.text().split(' ')[0]);
-            commentsCountContainer.text((currentCommentCount + 1) + " Comments");
+      console.log(comment.length);
+      if (comment.length<30)
+      {
+          $.post(
+          "post_comment.php",{postID:postID,comment:comment},
+          function(response){
+            if(response=="success")
+            {
+              alert("You have successfully posted your comment.");
+              $('#commentModal').modal('hide');
+              var postElement = $('#' + postID);
+              var commentsCountContainer = postElement.find('.commentsCount');
+              var currentCommentCount = parseInt(commentsCountContainer.text().split(' ')[0]);
+              commentsCountContainer.text((currentCommentCount + 1) + " Comments");
+            }
+            else
+            {
+              alert("There was an error posting your comment.");
+            }
           }
-          else
-          {
-            alert("There was an error posting your comment.");
-          }
-        }
-      );
+        );
+      }
+      else alert("Comment can have a maximum of 30 characters!");
+     
     });
   });
 
@@ -301,21 +307,65 @@ if(isset($_GET['id']))
     $.get("get_likers.php",{postID:postID},
     function(response)
     {
-      var modalBody = $('#likesModalBody');
+      var modalBody = $('#windowModalBody');
       modalBody.empty();
+      $("#windowModalLabel").text("Users who liked this photo")
       if(response.length>0)
       {
         for(var i=0;i<response.length;i++)
         {
-          modalBody.append("<div class='d-flex align-items-center justify-content-between mb-2'><div class='d-flex align-items-center'><img src='" + response[i].profile_picture + "' class='pfpNav'><span>" + response[i].name + "</span></div><i class='like fa fa-heart fa-2x'></i></div>");
+          modalBody.append("<div class='d-flex align-items-center justify-content-between mb-2'>" +
+    "<div class='d-flex align-items-center'>" +
+    "<a href='profile.php?id=" + response[i].id_user + "' style='display: inline-block; width: " + (60) + "px;'>" +
+    "<img src='" + response[i].profile_picture + "' class='pfpNav'></a>" +
+    "<span class='ml-2'>" + response[i].name + "</span>" +
+    "</div>" +
+    "<i class='like fa fa-heart fa-2x'></i>" +
+    "</div>");
+
         }
       }
       else modalBody.append('<p>This post has 0 likes.</p>');
       
 
-      $('#likesModal').modal('show');
+      $('#windowModal').modal('show');
     })
   });
+
+
+  //komentari prikaz
+  $(document).on('click', '.commentsCount', function(){
+    var postID = $(this).closest('.the-post').prop('id');
+    $.get("get_comments.php",{postID:postID},
+    function(response)
+    {
+      var users=response.users;
+      var comments=response.comments;
+      var modalBody = $('#windowModalBody');
+      modalBody.empty();
+      $("#windowModalLabel").text("Comments")
+
+      if(users.length>0)
+      {
+        for (let i = 0; i < users.length; i++) {
+          modalBody.append("<div class='d-flex align-items-center justify-content-between mb-2'>" +
+          "<div class='d-flex align-items-center'>" +
+          "<a href='profile.php?id=" + users[i].id_user + "' style='display: inline-block; width: " + (60) + "px;'>" +
+          "<img src='" + users[i].profile_picture + "' class='pfpNav'></a>" +
+          "<span class='ml-2'>" + users[i].name + ":</span>" +
+          "</div>" +
+          "<span class='ml-2'>" + comments[i] + "</span>" +
+          "</div>");
+        }
+      }
+      else modalBody.append('<p>This post has 0 comments.</p>');
+      
+      $('#windowModal').modal('show');
+    })
+  })
+
+
+
 
 
 
@@ -392,7 +442,11 @@ if(isset($_GET['id']))
     //dugme add OR edit
     $("#addORedit_btn").click(handleEditOrFollow);
 
-    
+    //profile description
+    var decodedDescription = decodeURIComponent("<?php echo $userProfile->prof_description?>")
+    if(decodedDescription.length>0)
+      $("#profileDescription").text(decodedDescription);
+    else $("#profileDescription").text("No profile description");
 
 });
 
