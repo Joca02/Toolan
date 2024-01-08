@@ -143,7 +143,8 @@ else
               alert("Post has been successfully added!");
               //da bi dugme ponovo bilo disabled
               $("#quick-post").val("");
-              buttonEnabled(document.getElementById("quick-post"));
+              var submitButton = document.getElementById("confirm-post");
+              buttonEnabled(document.getElementById("quick-post"),submitButton);
             }
           else
           {

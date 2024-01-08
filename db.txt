@@ -1,0 +1,19 @@
+$dbc=createConnection();
+    try{
+        $query="";
+        $result=mysqli_query($dbc,$query);
+        if($result)
+        {
+
+        }
+        else
+        {
+            error_log(mysqli_error($dbc));
+        }
+
+    }catch(Exception $e)
+    {
+        error_log($e);
+    }finally{
+        closeConnection($dbc);
+    }

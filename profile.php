@@ -105,6 +105,46 @@ if(isset($_GET['id']))
         <a href=""><?php  $pfpPath=$userProfile->profile_picture;
             echo "<img src='$pfpPath' class='pfpProfile'>";?></a>
         </div>
+  <!-- ADD COMMENT MODAL -->
+        <div id="commentModal" class="modal fade">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                      <h5 class="modal-title">Add Comment</h5>
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+                  <!-- Modal Body -->
+                  <div class="modal-body">
+                      <textarea id="commentText" class="form-control" rows="4" placeholder="Type your comment here..."></textarea>
+                  </div>
+                  <!-- Modal Footer -->
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-primary" id="submitComment">Submit</button>
+                  </div>
+              </div>
+          </div>
+</div>
+    <!--USER LIKES MODAL-->
+<div class="modal fade" id="likesModal" tabindex="-1" role="dialog" aria-labelledby="likesModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="likesModalLabel">Users who liked the photo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="likesModalBody">
+                <!-- Content will be dynamically added here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--END-->
         <?php 
             echo "<p class='profileName'>$userProfile->name</p>";
             echo "<p class='profileUsername'>@$userProfile->username</p> <br>";
@@ -194,8 +234,9 @@ if(isset($_GET['id']))
               loadPosts();
         }
     });
-    console.log("AAA");
-  
+    
+//OVA DVA EVENTA ISPOD DA STAVIM U POSEBAN FAJL JER SU ISTI I ZA HOME.PHP
+  //lajk event
   $(document).on('click', '.like', function(){
     var postID = $(this).closest('.the-post').prop('id');
     var likeButton = $(this); // referenca na kliknutu ikonicu like
@@ -214,6 +255,69 @@ if(isset($_GET['id']))
         }
     );
   })
+
+  //comment event
+  $(document).on('click', '.comment', function(){
+    var postID = $(this).closest('.the-post').prop('id');
+    var commentButton=$(this);
+    var txtArea=document.getElementById("commentText");
+    txtArea.value="";
+    var subm=document.getElementById("submitComment");
+      buttonEnabled(txtArea,subm);
+    $("#commentText").on('input',function(){
+      buttonEnabled(txtArea,subm);
+    })
+      
+    $('#commentModal').modal('show');
+    var btn=$("#submitComment");
+    btn.unbind("click");  //svaki put kada se klikne comment ico novi event handler se dodaje dugmetu koje submituje com pa moram da ga unbindujem
+    btn.click(function(){
+      var comment=txtArea.value;
+      $.post(
+        "post_comment.php",{postID:postID,comment:comment},
+        function(response){
+          if(response=="success")
+          {
+            alert("You have successfully posted your comment.");
+            $('#commentModal').modal('hide');
+            var postElement = $('#' + postID);
+            var commentsCountContainer = postElement.find('.commentsCount');
+            var currentCommentCount = parseInt(commentsCountContainer.text().split(' ')[0]);
+            commentsCountContainer.text((currentCommentCount + 1) + " Comments");
+          }
+          else
+          {
+            alert("There was an error posting your comment.");
+          }
+        }
+      );
+    });
+  });
+
+
+  //ko je lajkovao
+  $(document).on('click', '.likesCount', function(){
+    var postID = $(this).closest('.the-post').prop('id');
+    $.get("get_likers.php",{postID:postID},
+    function(response)
+    {
+      var modalBody = $('#likesModalBody');
+      modalBody.empty();
+      if(response.length>0)
+      {
+        for(var i=0;i<response.length;i++)
+        {
+          modalBody.append("<div class='d-flex align-items-center justify-content-between mb-2'><div class='d-flex align-items-center'><img src='" + response[i].profile_picture + "' class='pfpNav'><span>" + response[i].name + "</span></div><i class='like fa fa-heart fa-2x'></i></div>");
+        }
+      }
+      else modalBody.append('<p>This post has 0 likes.</p>');
+      
+
+      $('#likesModal').modal('show');
+    })
+  });
+
+
 
     //funkcija za izgled dugmeta za follow/edit profile
     function followButtonTextChange() {
@@ -242,6 +346,8 @@ if(isset($_GET['id']))
 
     followButtonTextChange();
 
+
+//I OVO EVENTUALNO U JS FAJL
     //pretraga korisnika
     const suggestionBox = $("#suggestion-box");
     $("#search").on("input", function(){

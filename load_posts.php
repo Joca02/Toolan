@@ -38,7 +38,7 @@ if(isset($_POST['pageID'])&&isset($_POST['postsLimit'])&&isset($_POST['offset'])
                         </div>
                         <div class='comment-count'>
                             <span class='likesCount'></span>
-                            <span class='commentsCount'>10 comments</span>
+                            <span class='commentsCount'></span>
                         </div>
                     </div>
                 </div>";

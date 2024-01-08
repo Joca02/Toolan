@@ -7,4 +7,5 @@ bez hard refresha
 -Uraditi lajk, komentar logiku
 -Scroll kroz postove
 -Picture post
+-Omoguciti brisanje slike
 

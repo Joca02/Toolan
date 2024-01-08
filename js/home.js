@@ -1,5 +1,5 @@
-function buttonEnabled(txtArea) {
-    var submitButton = document.getElementById("confirm-post");
+function buttonEnabled(txtArea,submitButton) {
+    //var submitButton = document.getElementById("confirm-post");
 
     if (txtArea.value.trim().length >= 3) {
         submitButton.disabled = false;
