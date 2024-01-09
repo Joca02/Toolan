@@ -1,10 +1,9 @@
 <?php
 require_once "classes.php";
 require_once "database.php";
-if(!isset($_SESSION)) 
-    { 
-        session_start(); 
-    }
+
+session_start(); 
+    
 header('Content-Type: application/json');
 $currentUser=$_SESSION['user'];
 

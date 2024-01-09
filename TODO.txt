@@ -1,5 +1,4 @@
--Pri prvom logovanju prva promena pfp se ne registruje
-bez hard refresha
+
 
 -Omoguciti brisanje slike
 -Picture post

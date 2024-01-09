@@ -72,6 +72,11 @@ class User{
             closeConnection($dbc);
         }
     }
+
+    public function __toString()
+    {
+        return "{$this->id_user} {$this->name} {$this->username}*****";
+    }
 }
 
 ?>

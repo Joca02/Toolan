@@ -94,9 +94,11 @@ $currentUser=$_SESSION['user'];
                         if (response == "success") {
                             alert("Changes have been saved successfully!");
                             $.get("update_session.php", function(data) {
-                                        //2. key-val pair dole zbog kesiranja brauzera
-                                        
-                                window.location.href = "profile.php?id=<?php echo $currentUser->id_user;?>";    
+                                        //2. key-val pair dole zbog kesiranja brauzera                               
+                                window.location.reload();
+                                // window.location.href = "profile.php?id=<?php //echo $currentUser->id_user;?>"; 
+
+
                                 // setTimeout(function() {
                                     
                                 //     window.location.reload(true);

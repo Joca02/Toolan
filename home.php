@@ -79,7 +79,7 @@ else
 
         <div class="quick-post row">
             <div class="col-9">
-            <textarea class="form-control" placeholder="Add a quick post. What's on your mind?" rows="3" id="quick-post" oninput="buttonEnabled(this)"></textarea>
+            <textarea class="form-control" placeholder="Add a quick post. What's on your mind?" rows="3" id="quick-post"></textarea>
             </div>
             <div class="btn col-3" id="btn-qpost">
                 <button type="submit" class="btn btn-primary" id="confirm-post" disabled>Post</button>
@@ -132,7 +132,12 @@ else
 
     //post logika
     const postContainer = $("#post-container");
-    
+    var txtArea=document.getElementById("quick-post")
+    var subm=document.getElementById("confirm-post");
+    $("#quick-post").on("input",function()
+    {
+      buttonEnabled(txtArea,subm);
+    })
     
     $("#confirm-post").click(function(){
       var txt=$("#quick-post").val();
@@ -143,8 +148,7 @@ else
               alert("Post has been successfully added!");
               //da bi dugme ponovo bilo disabled
               $("#quick-post").val("");
-              var submitButton = document.getElementById("confirm-post");
-              buttonEnabled(document.getElementById("quick-post"),submitButton);
+              buttonEnabled(txtArea,subm);
             }
           else
           {

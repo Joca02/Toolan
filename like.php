@@ -1,8 +1,11 @@
 <?php
-require_once "classes.php";
-require_once "database.php";
-session_start();
+
+
 header('Content-Type: application/json');
+require_once "database.php";
+require_once "classes.php";
+session_start();
+
 $currentUser=$_SESSION['user'];
 
 if(isset($_POST['postID']))
@@ -11,6 +14,7 @@ if(isset($_POST['postID']))
     $postID=$_POST['postID'];
     try
     {
+        error_log($currentUser);
         $query="SELECT * FROM likes WHERE id_user=$currentUser->id_user AND id_post=$postID";
         $result=mysqli_query($dbc,$query);
         if($result)
