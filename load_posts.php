@@ -2,6 +2,7 @@
 require_once "classes.php";
 require_once "database.php";
 session_start();
+header('Content-Type: application/json');
 $currentUser=$_SESSION['user'];
 
 if(isset($_POST['pageID'])&&isset($_POST['postsLimit'])&&isset($_POST['offset']))
@@ -12,37 +13,53 @@ if(isset($_POST['pageID'])&&isset($_POST['postsLimit'])&&isset($_POST['offset'])
     $userID=$_POST['pageID'];
     $limit=$_POST['postsLimit'];
     $offset=$_POST['offset'];
-    $user=findUserById($userID);
-    try{
+    $query;
+    if($userID==0)//postovi na home stranici
+    {
+        $query = "SELECT posts.id_post, users.profile_picture, users.username, posts.post_description, following.id_followed_user, posts.date
+        FROM users
+        JOIN posts ON users.id_user = posts.id_user
+        JOIN following ON following.id_followed_user = users.id_user
+        WHERE following.id_follower = $currentUser->id_user
+        ORDER BY posts.id_post DESC LIMIT $limit OFFSET $offset";
+    }
+
+    else
+    {
+        $user=findUserById($userID);
         $query="SELECT * FROM posts WHERE id_user=$userID ORDER BY id_post DESC LIMIT $limit OFFSET $offset";
+    }
+    
+    try{
+       
         $result=mysqli_query($dbc,$query);
         if($result)
         {
+            $id_posts=array();
+            $profile_pictures=array();
+            $usernames=array();
+            $post_descriptions=array();
+            $dates=array();
             while($row=mysqli_fetch_assoc($result))
             {
-                
-                echo "<div class='the-post' id='".$row['id_post']."'>
-                    <div class='post-header'>
-                        <img class='pfpNav' src='$user->profile_picture'>
-                        <span class='username'>$user->username</span>
-                        <span class='timestamp'>".$row['date']."</span>
-                    </div>
-                    <div class='post-content'>
-                        <p>".$row['post_description']."
-                        </p>
-                    </div>
-                    <div class='post-footer'>
-                        <div class='like-comment-icons'>
-                            <i class='like fa fa-heart-o fa-2x' ></i> 
-                            <i class='comment fa fa-comment-o fa-2x' ></i> 
-                        </div>
-                        <div class='comment-count'>
-                            <span class='likesCount'></span>
-                            <span class='commentsCount'></span>
-                        </div>
-                    </div>
-                </div>";
+                if($userID==0)  //ako je home page
+                    $user=findUserById($row['id_followed_user']);
+                $id_posts[]=$row['id_post'];
+                $profile_pictures[]=$user->profile_picture;
+                $usernames[]=$user->username;
+                $post_descriptions[]=$row['post_description'];
+                $dates[]=$row['date'];
             }
+            
+            $response=array(
+                "id_posts"=>$id_posts,
+                "profile_pictures"=>$profile_pictures,
+                "usernames"=>$usernames,
+                "post_descriptions"=>$post_descriptions,
+                "dates"=>$dates
+            );
+            
+            echo json_encode($response);
         }
         else error_log(mysqli_error($dbc));
 

@@ -53,12 +53,14 @@ if(isset($_GET['id']))
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles/post.css">
     <link rel="stylesheet" href="styles/home.css">
     <script src="https://kit.fontawesome.com/a6397c1be2.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="js/home.js"></script>
+<script src="js/post.js"></script>
 </head>
 <body>
     
@@ -178,194 +180,17 @@ if(isset($_GET['id']))
    
   $(function(){
     
-    //logika za prikazivanje postova
-    var postsLimit=3;
-    var offset=0;
     var pageID='<?php echo $userProfile->id_user;?>'
-    var isLoading=false;  //zabranjujem paralelno izvrsavanje vise asinhronih funkcija
-  
-    function loadPosts()//dodaj za com+likes
-    {
-      if(isLoading)
-        return;
-      isLoading=true;
-      $.post(
-        "load_posts.php",{pageID:pageID,postsLimit: postsLimit, offset:offset},function(response)
-        {
-          $("#post-container").append(response);
-
-          var newPosts = $("#post-container").children('.the-post');
-
-            // Loop through each new post to load likes count
-            newPosts.each(function () {
-                var postID = $(this).prop('id');
-                var likesCountContainer = $(this).find('.likesCount');
-                var commentsCountContainer = $(this).find('.commentsCount');
-                var likeButton = $(this).find('.like');
-                // Fetch and display the likes count
-                $.post(
-                "get_post_info.php",
-                { postID: postID },
-                function (response) {
-                    if (response.isLiked) {
-                        likeButton.removeClass('fa-heart-o').addClass('fa-heart');
-                    } else {
-                        likeButton.removeClass('fa-heart').addClass('fa-heart-o');
-                    }
-                    likesCountContainer.html(response.likesCount+" Likes");
-                    commentsCountContainer.html(response.commentsCount+" Comments");
-                   
-                }
-            );
-        });
-          offset+=postsLimit;
-          isLoading=false;
-        }
-      );
-    }
-
-    loadPosts();
+    
+    loadPosts(pageID);
 
     $(window).scroll(function() {
-        // if ($(window).scrollTop() + $(window).height() >= $('#home-container').height() ) {
-        //     loadPosts();
-        // }
+       
         if (Math.ceil($(document).height() - $(window).scrollTop()) <= $(window).height()+50) {
-              loadPosts();
+              loadPosts(pageID);
         }
     });
     
-//OVA DVA EVENTA ISPOD DA STAVIM U POSEBAN FAJL JER SU ISTI I ZA HOME.PHP
-  //lajk event
-  $(document).on('click', '.like', function(){
-    var postID = $(this).closest('.the-post').prop('id');
-    var likeButton = $(this); // referenca na kliknutu ikonicu like
-    $.post(
-        "like.php",
-        { postID: postID },
-        function(response) {
-          console.log(response.likeStatus);
-            if (response.likeStatus == "liked") {
-                likeButton.removeClass('fa-heart-o').addClass('fa-heart');
-            } else if (response.likeStatus == "notLiked") {
-                likeButton.removeClass('fa-heart').addClass('fa-heart-o');
-            }
-            console.log(response.likesCount);
-            likeButton.closest('.the-post').find('.likesCount').html(response.likesCount+" Likes");
-        }
-    );
-  })
-
-  //comment event
-  $(document).on('click', '.comment', function(){
-    var postID = $(this).closest('.the-post').prop('id');
-    var commentButton=$(this);
-    var txtArea=document.getElementById("commentText");
-    txtArea.value="";
-    var subm=document.getElementById("submitComment");
-      buttonEnabled(txtArea,subm);
-    $("#commentText").on('input',function(){
-      buttonEnabled(txtArea,subm);
-    })
-      
-    $('#commentModal').modal('show');
-    var btn=$("#submitComment");
-    btn.unbind("click");  //svaki put kada se klikne comment ico novi event handler se dodaje dugmetu koje submituje com pa moram da ga unbindujem
-    btn.click(function(){
-      var comment=txtArea.value;
-      console.log(comment.length);
-      if (comment.length<30)
-      {
-          $.post(
-          "post_comment.php",{postID:postID,comment:comment},
-          function(response){
-            if(response=="success")
-            {
-              alert("You have successfully posted your comment.");
-              $('#commentModal').modal('hide');
-              var postElement = $('#' + postID);
-              var commentsCountContainer = postElement.find('.commentsCount');
-              var currentCommentCount = parseInt(commentsCountContainer.text().split(' ')[0]);
-              commentsCountContainer.text((currentCommentCount + 1) + " Comments");
-            }
-            else
-            {
-              alert("There was an error posting your comment.");
-            }
-          }
-        );
-      }
-      else alert("Comment can have a maximum of 30 characters!");
-     
-    });
-  });
-
-
-  //ko je lajkovao
-  $(document).on('click', '.likesCount', function(){
-    var postID = $(this).closest('.the-post').prop('id');
-    $.get("get_likers.php",{postID:postID},
-    function(response)
-    {
-      var modalBody = $('#windowModalBody');
-      modalBody.empty();
-      $("#windowModalLabel").text("Users who liked this photo")
-      if(response.length>0)
-      {
-        for(var i=0;i<response.length;i++)
-        {
-          modalBody.append("<div class='d-flex align-items-center justify-content-between mb-2'>" +
-    "<div class='d-flex align-items-center'>" +
-    "<a href='profile.php?id=" + response[i].id_user + "' style='display: inline-block; width: " + (60) + "px;'>" +
-    "<img src='" + response[i].profile_picture + "' class='pfpNav'></a>" +
-    "<span class='ml-2'>" + response[i].name + "</span>" +
-    "</div>" +
-    "<i class='like fa fa-heart fa-2x'></i>" +
-    "</div>");
-
-        }
-      }
-      else modalBody.append('<p>This post has 0 likes.</p>');
-      
-
-      $('#windowModal').modal('show');
-    })
-  });
-
-
-  //komentari prikaz
-  $(document).on('click', '.commentsCount', function(){
-    var postID = $(this).closest('.the-post').prop('id');
-    $.get("get_comments.php",{postID:postID},
-    function(response)
-    {
-      var users=response.users;
-      var comments=response.comments;
-      var modalBody = $('#windowModalBody');
-      modalBody.empty();
-      $("#windowModalLabel").text("Comments")
-
-      if(users.length>0)
-      {
-        for (let i = 0; i < users.length; i++) {
-          modalBody.append("<div class='d-flex align-items-center justify-content-between mb-2'>" +
-          "<div class='d-flex align-items-center'>" +
-          "<a href='profile.php?id=" + users[i].id_user + "' style='display: inline-block; width: " + (60) + "px;'>" +
-          "<img src='" + users[i].profile_picture + "' class='pfpNav'></a>" +
-          "<span class='ml-2'>" + users[i].name + ":</span>" +
-          "</div>" +
-          "<span class='ml-2'>" + comments[i] + "</span>" +
-          "</div>");
-        }
-      }
-      else modalBody.append('<p>This post has 0 comments.</p>');
-      
-      $('#windowModal').modal('show');
-    })
-  })
-
-
-
 
 
 
@@ -396,28 +221,6 @@ if(isset($_GET['id']))
 
     followButtonTextChange();
 
-
-//I OVO EVENTUALNO U JS FAJL
-    //pretraga korisnika
-    const suggestionBox = $("#suggestion-box");
-    $("#search").on("input", function(){
-      var characters = $(this).val();
-      suggestionBox.empty();
-      if(characters.length > 0) {
-        $.get("filter_search.php?name=" + characters, function(response) {
-          
-          for (var i = 0; i < response.length; i++) {
-              const name=response[i].name;
-
-              const suggestionItem = $("<a href='profile.php?id="+response[i].id_user+"'  class='list-group-item list-group-item-action list-group-item-light'><img src='" + response[i].profile_picture + "' class='profile-picture-search'> " + response[i].name + "</a>");
-
-              suggestionBox.append(suggestionItem);
-
-          }
-          suggestionBox.show();
-        });
-      }
-    });
 
     function handleEditOrFollow()
     {
