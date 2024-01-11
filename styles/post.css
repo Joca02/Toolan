@@ -14,8 +14,12 @@
     padding: 10px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content:space-between;
     border-bottom: 1px solid #ddd;
+}
+
+.post-header span{
+    margin-right: 20px;
 }
 
 .post-content {
@@ -36,4 +40,17 @@
 .like-comment-icons i {
     margin-right: 10px;
     cursor: pointer;
+}
+
+.delBtn{
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.deletePost {
+    display: inline-block;
 }

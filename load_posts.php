@@ -50,13 +50,16 @@ if(isset($_POST['pageID'])&&isset($_POST['postsLimit'])&&isset($_POST['offset'])
                 $post_descriptions[]=$row['post_description'];
                 $dates[]=$row['date'];
             }
-            
+            $isUserOwner=false;
+            if($userID==$currentUser->id_user)
+                $isUserOwner=true;
             $response=array(
                 "id_posts"=>$id_posts,
                 "profile_pictures"=>$profile_pictures,
                 "usernames"=>$usernames,
                 "post_descriptions"=>$post_descriptions,
-                "dates"=>$dates
+                "dates"=>$dates,
+                "isUserOwner"=>$isUserOwner
             );
             
             echo json_encode($response);

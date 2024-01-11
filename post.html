@@ -4,59 +4,22 @@
     <title>Post</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f0f0;
-        }
-
-        .post {
-            max-width: 600px;
-            margin: 20px auto;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .post-header {
-            padding: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .post-content {
-            padding: 15px;
-        }
-
-        .post-footer {
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
-            border-top: 1px solid #ddd;
-        }
-
-        .like-comment-icons {
-            display: flex;
-        }
-
-        .like-comment-icons i {
-            margin-right: 10px;
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" href="styles/post.css">
 </head>
 <body>
 
     <div class="the-post">
         <div class="post-header">
-            <img class="pfpNav">
-            <span class="username"></span>
-            <span class="timestamp"></span>
+            <div>
+                <img class="pfpNav">
+                <span class="username"></span>
+            </div>
+            <div>
+                <span class="timestamp"></span>
+                <div class="deletePost"></div>
+            </div>
+            
+            
         </div>
         <div class="post-content">
             <p></p>

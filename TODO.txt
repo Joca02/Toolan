@@ -1,11 +1,13 @@
 
 
--Omoguciti brisanje slike
+-Admin deo!!!!
+
+
+        BONUS
+///////////////////////
 -Picture post
 -Prikaz na home page-u
 
 -Prikazi koga pratim, ko me prati, koliko imam flw
--Na prof prikazi slike/text
+//////////////////////
 
--Follow notifikacija
--Eventualno admin deo

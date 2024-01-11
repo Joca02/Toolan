@@ -59,6 +59,7 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: right;
+    padding-right: 50px;
 }
 .currUserName{
     font-size: 18px;
@@ -75,7 +76,7 @@ html, body {
     height:60px;
     border-radius: 50%;
     object-fit: cover;
-    margin-right: 50px;
+    margin-right: 5px;
     cursor: pointer;
 }
 
@@ -119,42 +120,7 @@ html, body {
     margin-bottom: 50px;
 }
 
- .the-post {
-            max-width: 600px;
-            margin: 20px auto;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
 
-        .post-header {
-            padding: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .post-content {
-            padding: 15px;
-        }
-
-        .post-footer {
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
-            border-top: 1px solid #ddd;
-        }
-
-        .like-comment-icons {
-            display: flex;
-        }
-
-        .like-comment-icons i {
-            margin-right: 10px;
-            cursor: pointer;
-        }
 
         .profile-box{
             max-width: 600px;

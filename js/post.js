@@ -23,7 +23,7 @@ function loadPosts(pageID)//ako je id=0 znaci da je home page
         {
           for(var i=0;i<response.usernames.length;i++)
           {
-            var newPost=postElement.clone();//pravim klon templejta jer ce se referencom sve primeniti nad 1
+            var newPost=postElement.clone();//pravim klon templejta jer ce se  referencom sve primeniti nad 1 elementom
            
             newPost.find('.pfpNav').attr('src',response.profile_pictures[i]);
             newPost.attr('id',response.id_posts[i]);
@@ -31,6 +31,8 @@ function loadPosts(pageID)//ako je id=0 znaci da je home page
             
             newPost.find('.timestamp').text(response.dates[i]);
             newPost.find('.post-content p').text(response.post_descriptions[i]);
+            if(response.isUserOwner==true) //dodajem mogucnost brisanja objave
+              newPost.find('.deletePost').append("<button type='button' class='delBtn btn btn-outline-danger'>X</button>");
 
             $("#post-container").append(newPost);
           }
@@ -42,6 +44,7 @@ function loadPosts(pageID)//ako je id=0 znaci da je home page
                 var likesCountContainer = $(this).find('.likesCount');
                 var commentsCountContainer = $(this).find('.commentsCount');
                 var likeButton = $(this).find('.like');
+               
           
                 $.post(
                 "get_post_info.php",
@@ -64,7 +67,7 @@ function loadPosts(pageID)//ako je id=0 znaci da je home page
       );
     }
 
-    //navigacija na korisnika koji je postovao TODO
+    
     $(document).on('click', '.pfpNav', function() {
         //nalazim userID trimovanjem sourca slike, jer je svaka slika u formatu userID.png/jpg/jpeg..
         var srcValue = $(this).attr('src');
@@ -202,6 +205,30 @@ function loadPosts(pageID)//ako je id=0 znaci da je home page
       $('#windowModal').modal('show');
     })
   })
+
+  //brisanje posta
+  $(document).on('click','.delBtn',function()
+  {
+    if(confirm("Are you sure you want to delete this post? Once deleted, action cannot be undone."))
+    {
+        var postID = $(this).closest('.the-post').prop('id');
+        $.post("delete_post.php",{postID:postID},function(response){
+            if(response=="success")
+            {
+              alert("You have successfully deleted your post.")
+              window.location.reload();
+            }
+            else{
+              alert("There was an error during your request. Please try again later.")
+            }
+        });
+      }
+  });
+
+
+
+
+
 
   //pretraga korisnika
   $(function(){
