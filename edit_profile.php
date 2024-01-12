@@ -96,6 +96,7 @@ $currentUser=$_SESSION['user'];
                             $.get("update_session.php", function(data) {
                                         //2. key-val pair dole zbog kesiranja brauzera                               
                                 //window.location.reload();
+                                
                                 window.location.href = "profile.php?id=<?php echo $currentUser->id_user;?>"; 
 
 

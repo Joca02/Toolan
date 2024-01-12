@@ -49,10 +49,18 @@
                 $.post("check_login.php",{username:usr,password:psw},
                 function(response)
                 {
-                    if(response=="success")
+                    if(response=="admin success")
+                    {
+                        window.location.href="admin_home.php";
+                    }
+                    else if(response=="success")
                     {
                         window.location.href ="home.php";
-                    }    
+                    }  
+                    else if(response.status=="banned")
+                    {
+                        alert("You have been banned until:    "+response.date_end+"\nFor reason:\n "+response.banReason);
+                    }  
                     else
                     {
                         alert("Username and password don't match");

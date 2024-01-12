@@ -108,7 +108,7 @@ html, body {
 }
 
 #suggestion-box{
-    margin-left: 80px;
+    margin-left: 60px;
     margin-right: 24%;
     margin-bottom: 50px;
     text-align: left;
@@ -150,4 +150,31 @@ html, body {
             
             background-color: #2e2f30;
 
+        }
+
+        #bannedUsersBtn{
+            background-color: #db4ba6;
+            margin-bottom: 50px;
+        }
+
+        #adminLogo{
+            width: 300px;
+            height: 70px;
+            margin-left: 30px;
+        }
+
+        #ban_btn{
+            width: 200px;
+            background-color: gray;
+            margin-bottom: 50px;
+        }
+
+        .ban-footer{
+            justify-content: space-between;
+        }
+
+        .subm-ban-btn{
+            background-color:rgb(196, 68, 68) ;
+            color: white;
+            font-size: 18px;
         }

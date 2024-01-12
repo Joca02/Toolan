@@ -3,7 +3,10 @@ require_once "classes.php";
 require_once "database.php";
 session_start();
 header('Content-Type: application/json');
-$currentUser=$_SESSION['user'];
+
+
+
+
 
 if(isset($_POST['pageID'])&&isset($_POST['postsLimit'])&&isset($_POST['offset']))
 {
@@ -14,6 +17,15 @@ if(isset($_POST['pageID'])&&isset($_POST['postsLimit'])&&isset($_POST['offset'])
     $limit=$_POST['postsLimit'];
     $offset=$_POST['offset'];
     $query;
+    $isUserOwner=false;
+    
+    if(isset($_SESSION['user']))
+    {
+        $currentUser=$_SESSION['user'];
+        if($userID==$currentUser->id_user)
+            $isUserOwner=true;   
+    }
+   
     if($userID==0)//postovi na home stranici
     {
         $query = "SELECT posts.id_post, users.profile_picture, users.username, posts.post_description, following.id_followed_user, posts.date
@@ -23,7 +35,13 @@ if(isset($_POST['pageID'])&&isset($_POST['postsLimit'])&&isset($_POST['offset'])
         WHERE following.id_follower = $currentUser->id_user
         ORDER BY posts.id_post DESC LIMIT $limit OFFSET $offset";
     }
-
+    else if($userID==0.123)//svi postovi koje vidi samo admin
+    {
+        $query="SELECT posts.id_post, users.profile_picture, users.username, posts.post_description, users.id_user, posts.date
+        FROM users
+        JOIN posts ON users.id_user = posts.id_user
+        ORDER BY posts.id_post DESC LIMIT $limit OFFSET $offset";
+    }
     else
     {
         $user=findUserById($userID);
@@ -44,15 +62,15 @@ if(isset($_POST['pageID'])&&isset($_POST['postsLimit'])&&isset($_POST['offset'])
             {
                 if($userID==0)  //ako je home page
                     $user=findUserById($row['id_followed_user']);
+                else if($userID==0.123)
+                    $user=findUserById($row['id_user']);
                 $id_posts[]=$row['id_post'];
                 $profile_pictures[]=$user->profile_picture;
                 $usernames[]=$user->username;
                 $post_descriptions[]=$row['post_description'];
                 $dates[]=$row['date'];
             }
-            $isUserOwner=false;
-            if($userID==$currentUser->id_user)
-                $isUserOwner=true;
+            
             $response=array(
                 "id_posts"=>$id_posts,
                 "profile_pictures"=>$profile_pictures,

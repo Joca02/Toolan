@@ -5,7 +5,8 @@ require_once "database.php";
 session_start(); 
     
 header('Content-Type: application/json');
-$currentUser=$_SESSION['user'];
+if(isset($_SESSION['user']))
+    $currentUser=$_SESSION['user'];
 
 function isPostLiked($dbc,$postID)
 {
@@ -45,7 +46,9 @@ if(isset($_POST['postID']))
     $dbc=createConnection();
     $postID=$_POST['postID'];
     try{
-        $isLiked=isPostLiked($dbc,$postID);
+        $isLiked=false;
+        if(isset($currentUser))
+            $isLiked=isPostLiked($dbc,$postID);
         $likesCount=postLikesCount($dbc,$postID);
         $commentsCount=postCommentsCount($dbc,$postID);
         $response=array(

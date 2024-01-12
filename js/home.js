@@ -9,3 +9,4 @@ function buttonEnabled(txtArea,submitButton) {
         submitButton.classList.remove('enabled');
     }
 }
+

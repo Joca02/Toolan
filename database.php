@@ -45,9 +45,10 @@ function generateUser($row)
 function findNames($dbc,$characters)
 {
     
-    $query="SELECT * FROM users where name LIKE '$characters%'";
+    $query = "SELECT * FROM users WHERE name LIKE '$characters%' AND user_type != 'admin'";
+
     $result=mysqli_query($dbc,$query);
-    if(!$result)throw new Exception("Querry in findNames failed.");
+    if(!$result)throw new Exception("Query in findNames failed.");
     $filteredUsers=[];
     while($row=mysqli_fetch_assoc($result))
     {               
