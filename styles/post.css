@@ -22,7 +22,7 @@
     margin-right: 20px;
 }
 
-.post-content {
+.post-content p{
     padding: 15px;
 }
 
@@ -31,6 +31,7 @@
     display: flex;
     justify-content: space-between;
     border-top: 1px solid #ddd;
+    align-items: center;
 }
 
 .like-comment-icons {
@@ -53,4 +54,12 @@
 }
 .deletePost {
     display: inline-block;
+}
+
+.post-picture{
+    width:600px;
+    height: 400px;;
+}
+.post-footer p{
+
 }

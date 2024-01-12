@@ -44,8 +44,8 @@ else
     <div class="col-6" id="search-div">
 
     <input type="text" class="form-control" id="search" placeholder="Search...">
-    
 
+    
     </div>
     <div class="usrBar col">
       <div class="dropdown">
@@ -61,7 +61,7 @@ else
         
           <?php
             $pfpPath=$currentUser->profile_picture;
-            echo "<img src='$pfpPath' class='pfpNav'>";//dodavanje profilne gore desno
+            echo "<img src='$pfpPath' class='pfpNav' data-userid='$currentUser->id_user'>";//dodavanje profilne gore desno
           ?>   
     </div>          
     </div>
@@ -84,14 +84,19 @@ else
             <textarea class="form-control" placeholder="Add a quick post. What's on your mind?" rows="3" id="quick-post"></textarea>
             </div>
             <div class="btn col-3" id="btn-qpost">
+                <input type="file" name="picturePost" id="picturePost">
                 <button type="submit" class="btn btn-primary" id="confirm-post" disabled>Post</button>
-            </div>
+            </div>   
     </div>
+
+    <br><hr><br>
+    
     </div>
     <div class="col">
     </div>
   </div>
 
+  
   <div >
   <div class="row">
     <div class="col">
@@ -176,22 +181,35 @@ else
     })
     
     $("#confirm-post").click(function(){
-      var txt=$("#quick-post").val();
-      $.get(
-        "add_post.php",{post_description:txt},function(response){
-          if(response=="success")
-            {
-              alert("Post has been successfully added!");
-              //da bi dugme ponovo bilo disabled
-              $("#quick-post").val("");
-              buttonEnabled(txtArea,subm);
+      var txt = $("#quick-post").val();
+            var formData = new FormData();
+
+            formData.append('post_description', txt);
+
+            var fileInput = document.getElementById('picturePost');
+            if (fileInput.files.length > 0) {
+                formData.append('picturePost', fileInput.files[0]);
             }
-          else
-          {
-            alert("There was an error adding the post, please try again later.");
-          }
-        }
-      );
+            $.ajax({
+                url: 'add_post.php',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    if (response == "success") {
+                        alert("Post has been successfully added!");
+                        $("#quick-post").val("");
+                        buttonEnabled(txtArea, subm);
+                    }else if(response=="file_failure")
+                    {
+                      alert("Please use a different picture format.");
+                    }
+                     else {
+                        alert("There was an error adding the post, please try again later.");
+                    }
+                }
+            });
     });
 });
 

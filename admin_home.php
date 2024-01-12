@@ -59,7 +59,7 @@ else
         
           <?php
             $pfpPath=$admin->profile_picture;
-            echo "<img src='$pfpPath' class='pfpNav'>";//dodavanje profilne gore desno
+            echo "<img src='$pfpPath' class='pfpNav' data-userid='$admin->id_user'>";//dodavanje profilne gore desno
           ?>   
     </div>          
     </div>

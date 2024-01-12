@@ -28,7 +28,7 @@ if(isset($_POST['pageID'])&&isset($_POST['postsLimit'])&&isset($_POST['offset'])
    
     if($userID==0)//postovi na home stranici
     {
-        $query = "SELECT posts.id_post, users.profile_picture, users.username, posts.post_description, following.id_followed_user, posts.date
+        $query = "SELECT posts.id_post, users.profile_picture, users.username, posts.post_description, following.id_followed_user, posts.date,posts.picture
         FROM users
         JOIN posts ON users.id_user = posts.id_user
         JOIN following ON following.id_followed_user = users.id_user
@@ -37,7 +37,7 @@ if(isset($_POST['pageID'])&&isset($_POST['postsLimit'])&&isset($_POST['offset'])
     }
     else if($userID==0.123)//svi postovi koje vidi samo admin
     {
-        $query="SELECT posts.id_post, users.profile_picture, users.username, posts.post_description, users.id_user, posts.date
+        $query="SELECT posts.id_post, users.profile_picture, users.username, posts.post_description, users.id_user, posts.date,posts.picture
         FROM users
         JOIN posts ON users.id_user = posts.id_user
         ORDER BY posts.id_post DESC LIMIT $limit OFFSET $offset";
@@ -58,6 +58,8 @@ if(isset($_POST['pageID'])&&isset($_POST['postsLimit'])&&isset($_POST['offset'])
             $usernames=array();
             $post_descriptions=array();
             $dates=array();
+            $pictures=array();
+            $id_users=array();
             while($row=mysqli_fetch_assoc($result))
             {
                 if($userID==0)  //ako je home page
@@ -69,15 +71,20 @@ if(isset($_POST['pageID'])&&isset($_POST['postsLimit'])&&isset($_POST['offset'])
                 $usernames[]=$user->username;
                 $post_descriptions[]=$row['post_description'];
                 $dates[]=$row['date'];
+                $pictures[]=$row['picture'];
+                $id_users[]=$user->id_user;
+                
             }
-            
+ 
             $response=array(
                 "id_posts"=>$id_posts,
                 "profile_pictures"=>$profile_pictures,
                 "usernames"=>$usernames,
                 "post_descriptions"=>$post_descriptions,
                 "dates"=>$dates,
-                "isUserOwner"=>$isUserOwner
+                "pictures"=>$pictures,
+                "isUserOwner"=>$isUserOwner,
+                "id_users"=>$id_users
             );
             
             echo json_encode($response);

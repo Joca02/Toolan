@@ -88,7 +88,7 @@ if(isset($_GET['id']))
         
           <?php
             $pfpPath=$currentUser->profile_picture;
-            echo "<img src='$pfpPath' class='pfpNav'>";//dodavanje profilne gore desno
+            echo "<img src='$pfpPath' class='pfpNav' data-userid='$currentUser->id_user'>";//dodavanje profilne gore desno
           ?>
     </div>          
     </div>
@@ -104,8 +104,8 @@ if(isset($_GET['id']))
     <div class="post col-7">
         <div id="suggestion-box" class="list-group"></div>
         <div class='profile-box'><br><div>
-        <a href=""><?php  $pfpPath=$userProfile->profile_picture;
-            echo "<img src='$pfpPath' class='pfpProfile'>";?></a>
+        <?php  $pfpPath=$userProfile->profile_picture;
+            echo "<img src='$pfpPath' class='pfpProfile'>";?>
         </div>
   <!-- ADD COMMENT MODAL -->
         <div id="commentModal" class="modal fade">
