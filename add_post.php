@@ -54,6 +54,9 @@ if(isset($_POST['post_description']))
                 error_log("failed to upload file");
             }
         }
+        else { echo json_encode("file_failure");
+            error_log("failed to upload file");
+        }
 
     }
     else    //ako nije dodat fajl
