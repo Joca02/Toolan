@@ -28,7 +28,7 @@ function loadPosts(pageID)//ako je id=0 znaci da je home page
             newPost.find('.pfpNav').attr('src',response.profile_pictures[i]);
             newPost.find('.pfpNav').data('userid', response.id_users[i]);
             newPost.attr('id',response.id_posts[i]);
-            newPost.find('.username').text("@"+response.usernames[i]);
+            newPost.find('.username').html("<strong>@" + response.usernames[i] + "</strong>");
             newPost.find('.timestamp').text(response.dates[i]);
 
             
@@ -216,11 +216,11 @@ function loadPosts(pageID)//ako je id=0 znaci da je home page
       if(users.length>0)
       {
         for (let i = 0; i < users.length; i++) {
-          modalBody.append("<div class='d-flex align-items-center justify-content-between mb-2'>" +
+          modalBody.append("<div class='d-flex align-items-center justify-content-start mb-2'>" +
           "<div class='d-flex align-items-center'>" +
           "<a href='profile.php?id=" + users[i].id_user + "' style='display: inline-block; width: " + (60) + "px;'>" +
           "<img src='" + users[i].profile_picture + "' class='pfpNav' data-userid='"+users[i].id_user+"'></a>" +
-          "<span class='ml-2'>" + users[i].name + ":</span>" +
+          "<u><span class='ml-2'>" + users[i].name + ":</span></u>" +
           "</div>" +
           "<span class='ml-2'>" + comments[i] + "</span>" +
           "</div>");

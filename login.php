@@ -59,7 +59,7 @@
                     }  
                     else if(response.status=="banned")
                     {
-                        alert("You have been banned until:    "+response.date_end+"\nFor reason:\n "+response.banReason);
+                        alert("You have been banned until:   "+response.date_end+"\nFor reason:\n"+response.banReason);
                     }  
                     else
                     {
