@@ -17,9 +17,13 @@
 <div id="post-container"></div>
 
 <script>
-var postTemplate; // Variable to store the post template
 
-// Fetch the post template from post.html
+    //FAJL ZA EKSPERIMENTISANJE
+
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+var postTemplate; 
+
 // $.ajax({
 //     url: 'post.html',
 //     method: 'GET',
@@ -43,7 +47,7 @@ $.get("post.html",function(data)
     var tempContainer = $('<div>');
     tempContainer.html(data);
 
-    // Extract the specific element you want (e.g., <div class="post">)
+   ž
     var postElement = tempContainer.find('.the-post');
     
     postElement.find('.post-content p').text("AWSD"); 
@@ -51,10 +55,10 @@ $.get("post.html",function(data)
 })
 
 
-// Append the post template to the container in a.php
 
 
-
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
 </script>
 </body>
 </html>

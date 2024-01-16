@@ -16,7 +16,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     //provera fajla
     if (!$_FILES['editProfilePicture']['error'])
     {   
-        //error_log($_FILES['editProfilePicture']['name']);
         $allowedTypes=array('jpg', 'jpeg', 'png','JPG');
         $tmp=explode('.',$_FILES['editProfilePicture']['name']);
         $fileExtension=$tmp[count($tmp)-1];

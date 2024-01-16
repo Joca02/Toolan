@@ -133,7 +133,7 @@ else
                 </button>
             </div>
             <div class="modal-body" id="windowModalBody">
-                <!-- Content will be dynamically added here -->
+                
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

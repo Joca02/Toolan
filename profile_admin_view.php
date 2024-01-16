@@ -4,8 +4,8 @@ require_once "database.php";
 session_start();
 $userProfile;
 if (!isset($_SESSION['admin'])) {
- // header("Location: login.php");
-  //exit();
+  header("Location: login.php");
+  exit();
 }
 $admin=$_SESSION['admin'];
 
