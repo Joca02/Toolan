@@ -1,7 +1,7 @@
 # Toolan- Social media website
 
 ## About
-- This website is created using  Three-Tier architecture. For front-end projects use HTML5, CSS3, Bootstrap, jQuery, and AJAX. The back end is made entirely in PHP, and MySQL is used as a database. 
+- This website is created using  Three-Tier architecture. For front-end project uses HTML5, CSS3, Bootstrap, jQuery, and AJAX. The back end is made entirely in PHP, and MySQL is used as a database. 
 The project was made for the Web Applications class I took in my 3rd year of University, meaning the whole project was done from scratch including database design. Most of the features were inspired by Facebook, Instagram and Twitter. 
 The project currently supports two types of users: user and admin.
 - User interactions are supported with CRUD operations.
